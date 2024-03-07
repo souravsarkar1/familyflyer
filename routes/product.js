@@ -1,28 +1,27 @@
 const express = require('express');
 // const { ProductModel } = require('../model/product');
-const {ProductModel} = require('../model/product');
+const { ProductModel } = require('../model/product');
 const productRoute = express.Router();
 
 // GET all products
 productRoute.get('/', async (req, res) => {
     try {
         // Extract pagination parameters from the request query
-        const { page = 1, pageSize = 5 } = req.query;
+        // const { page = 1, pageSize = 5 } = req.query;
 
         // Convert page and pageSize to numbers
-        const pageNumber = parseInt(page);
-        const pageSizeNumber = parseInt(pageSize);
+        // const pageNumber = parseInt(page);
+        // const pageSizeNumber = parseInt(pageSize);
 
         // Calculate the number of documents to skip
-        const skip = (pageNumber - 1) * pageSizeNumber;
+        // const skip = (pageNumber - 1) * pageSizeNumber;
 
         // Fetch products with pagination from the database
         const products = await ProductModel.find()
-            .skip(skip)
-            .limit(pageSizeNumber);
+
 
         // Respond with a 200 status and the retrieved products in JSON format
-        res.status(200).json({ products, currentPage: pageNumber, pageSize: pageSizeNumber });
+        res.status(200).json({ products });
     } catch (error) {
         // Handle any errors that occur during the database query or response
         console.error('Error fetching products:', error);
@@ -32,25 +31,25 @@ productRoute.get('/', async (req, res) => {
 
 //  GET SINGLE PRODUCT
 
-productRoute.get('/:id', async (req,res)=>{
+productRoute.get('/:id', async (req, res) => {
     try {
-      const id = req.params.id;
-      const product = await ProductModel.findById(id);
-      res.status(200).json({product});
+        const id = req.params.id;
+        const product = await ProductModel.findById(id);
+        res.status(200).json({ product });
     } catch (error) {
         console.error('Error fetching products:', error);
-        res.status(500).json({ error: 'Internal Server Error' }); 
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 })
 
 // POST A NEW PRODUCT
-productRoute.post('/', async(req,res)=>{
+productRoute.post('/', async (req, res) => {
     console.log(req.body.beach);
     try {
         const data = req.body;
         const product = new ProductModel(data);
         await product.save();
-        res.status(201).json({message : "Diteals is Added",product});
+        res.status(201).json({ message: "Diteals is Added", product });
     } catch (error) {
         console.error('Error fetching products:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
