@@ -22,7 +22,7 @@ logs
 /coverage
 
 # MongoDB files
-data.js
+
 
 # IDE-specific files
 .vscode
