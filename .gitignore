@@ -22,7 +22,7 @@ logs
 /coverage
 
 # MongoDB files
-/data
+data.js
 
 # IDE-specific files
 .vscode
@@ -31,3 +31,4 @@ logs
 # OS-specific files
 .DS_Store
 Thumbs.db
+

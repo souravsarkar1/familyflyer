@@ -1,6 +1,7 @@
 const express = require('express');
 // const { ProductModel } = require('../model/product');
 const { ProductModel } = require('../model/product');
+const hotels = require('../data');
 const productRoute = express.Router();
 
 // GET all products
@@ -114,5 +115,21 @@ productRoute.delete('/:id', async (req, res) => {
     }
 });
 
+productRoute.post('/hit-this', async( req, res) => {
+    try {
+        console.log(hotels, 'hotels')
+        const updatedHotels = hotels.map((item) => {
+            return {
+                hotel: {name: item?.hotelName?.name, address: item?.hotelName?.address, website: item?.hotelName?.hotelURL}
+            }
+        })
+
+       await  ProductModel.insertMany(updatedHotels);
+       return res.send("OK")
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
 
 module.exports = { productRoute };
