@@ -100,7 +100,7 @@ const ProductSchema = mongoose.Schema(
       cleanliness: { type: String },
       include: { type: String },
       BBQSpots: { type: String },
-      Images: [
+      images: [
         {
           title: { type: String },
           url: { type: String },
@@ -126,7 +126,7 @@ const ProductSchema = mongoose.Schema(
       onsiteMarineBiologist: { type: String },
       entryPointsAndLengthOfSwim: { type: String },
       abundanceOfReefSharks: { type: String },
-      ReviewsSentiments: { type: String },
+      reviewsSentiments: { type: String },
       images: [
         {
           title: { type: String },
@@ -210,11 +210,11 @@ const ProductSchema = mongoose.Schema(
     foodAndBeverage: {
       InclusionsOrExclusionsforFullOrhalfBoard: { type: String },
       extraCostForRoomService: { type: String },
-      numberOfBarsAndNames: [{ type: String }],
+      numberOfBarsAndNames: { type: String },
       hoursOfOperation: { type: String },
       specialties: { type: String },
       reviewsSentiments: { type: String },
-      numberOfRestaurantsandNames: [{ type: String }],
+      numberOfRestaurantsandNames: { type: String },
       typesOfCuisine: { type: String },
       halaalOption: { type: String },
       kidsMenu: { type: String },
@@ -228,9 +228,9 @@ const ProductSchema = mongoose.Schema(
       ],
     },
     services: {
-      trainingOrQualifications: [{ type: String }],
+      trainingOrQualifications: { type: String },
       needToPreBook: { type: String },
-      safetyFeatures: [{ type: String }],
+      safetyFeatures: { type: String },
       isNannyavAilable: { type: String },
       cost: { type: String },
     },
