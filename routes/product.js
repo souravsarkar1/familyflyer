@@ -6,130 +6,133 @@ const productRoute = express.Router();
 
 // GET all products
 productRoute.get('/', async (req, res) => {
-    try {
-        // Extract pagination parameters from the request query
-        // const { page = 1, pageSize = 5 } = req.query;
+  try {
+    // Extract pagination parameters from the request query
+    // const { page = 1, pageSize = 5 } = req.query;
 
-        // Convert page and pageSize to numbers
-        // const pageNumber = parseInt(page);
-        // const pageSizeNumber = parseInt(pageSize);
+    // Convert page and pageSize to numbers
+    // const pageNumber = parseInt(page);
+    // const pageSizeNumber = parseInt(pageSize);
 
-        // Calculate the number of documents to skip
-        // const skip = (pageNumber - 1) * pageSizeNumber;
+    // Calculate the number of documents to skip
+    // const skip = (pageNumber - 1) * pageSizeNumber;
 
-        // Fetch products with pagination from the database
-        const products = await ProductModel.find()
+    // Fetch products with pagination from the database
+    const products = await ProductModel.find();
 
-
-        // Respond with a 200 status and the retrieved products in JSON format
-        res.status(200).json({ products });
-    } catch (error) {
-        // Handle any errors that occur during the database query or response
-        console.error('Error fetching products:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+    // Respond with a 200 status and the retrieved products in JSON format
+    res.status(200).json({ products });
+  } catch (error) {
+    // Handle any errors that occur during the database query or response
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 //  GET SINGLE PRODUCT
 
 productRoute.get('/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const product = await ProductModel.findById(id);
-        res.status(200).json({ product });
-    } catch (error) {
-        console.error('Error fetching products:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-})
+  try {
+    const id = req.params.id;
+    const product = await ProductModel.findById(id);
+    res.status(200).json({ product });
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // POST A NEW PRODUCT
 productRoute.post('/', async (req, res) => {
-    console.log(req.body.beach);
-    try {
-        const data = req.body;
-        const product = new ProductModel(data);
-        await product.save();
-        res.status(201).json({ message: "Diteals is Added", product });
-    } catch (error) {
-        console.error('Error fetching products:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+  console.log(req.body.beach);
+  try {
+    const data = req.body;
+    const { userName } = data;
+    const isUserRegistered = await await ProductModel.findOne({ 'hotel.userName': userName });
+    if (isUserRegistered) {
+      return res.status(400).json({ message: 'User is already registered, Please try with newone' });
     }
-})
+    const product = new ProductModel(data);
+    await product.save();
+    res.status(201).json({ message: 'Diteals is Added', product });
+  } catch (error) {
+    console.error('Error fetching products:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // UPDATE PRODUCT
 
 productRoute.put('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const data = req.body;
+  try {
+    const { id } = req.params;
+    const data = req.body;
 
-        // Ensure the provided ID is valid
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-            return res.status(400).json({ message: "Invalid ID format" });
-        }
-
-        // Find the product by ID and update it with the new data
-        const product = await ProductModel.findByIdAndUpdate(id, data, { new: true });
-
-        // Check if the product exists
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-
-        // Respond with the updated product
-        res.status(200).json(product);
-    } catch (error) {
-        // Handle any errors that occur during the update or response
-        console.error('Error updating product:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+    // Ensure the provided ID is valid
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: 'Invalid ID format' });
     }
-});
 
+    // Find the product by ID and update it with the new data
+    const product = await ProductModel.findByIdAndUpdate(id, data, { new: true });
+
+    // Check if the product exists
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Respond with the updated product
+    res.status(200).json(product);
+  } catch (error) {
+    // Handle any errors that occur during the update or response
+    console.error('Error updating product:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // DELETE PRODUCT
 
 productRoute.delete('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        // Ensure the provided ID is valid
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-            return res.status(400).json({ message: "Invalid ID format" });
-        }
-
-        // Find the product by ID and remove it
-        const deletedProduct = await ProductModel.findByIdAndDelete(id);
-
-        // Check if the product exists
-        if (!deletedProduct) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-
-        // Respond with a success message
-        res.status(200).json({ message: "Product deleted successfully" });
-    } catch (error) {
-        // Handle any errors that occur during the deletion or response
-        console.error('Error deleting product:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+    // Ensure the provided ID is valid
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: 'Invalid ID format' });
     }
+
+    // Find the product by ID and remove it
+    const deletedProduct = await ProductModel.findByIdAndDelete(id);
+
+    // Check if the product exists
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    // Respond with a success message
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } catch (error) {
+    // Handle any errors that occur during the deletion or response
+    console.error('Error deleting product:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
-productRoute.post('/hit-this', async( req, res) => {
-    try {
-        console.log(hotels, 'hotels')
-        const updatedHotels = hotels.map((item) => {
-            return {
-                hotel: {name: item?.hotelName?.name, address: item?.hotelName?.address, website: item?.hotelName?.hotelURL}
-            }
-        })
+productRoute.post('/hit-this', async (req, res) => {
+  try {
+    console.log(hotels, 'hotels');
+    const updatedHotels = hotels.map(item => {
+      return {
+        hotel: { name: item?.hotelName?.name, address: item?.hotelName?.address, website: item?.hotelName?.hotelURL },
+      };
+    });
 
-       await  ProductModel.insertMany(updatedHotels);
-       return res.send("OK")
-    } catch (error) {
-        console.error('Error deleting product:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-})
+    await ProductModel.insertMany(updatedHotels);
+    return res.send('OK');
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = { productRoute };

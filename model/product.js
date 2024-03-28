@@ -6,6 +6,8 @@ const ProductSchema = mongoose.Schema(
       name: { type: String },
       address: { type: String },
       website: { type: String },
+      userName: { type: String, required: true },
+      password: { type: String, required: true },
     },
     propertyInformation: {
       scopeOfRenovation: [{ type: String }],
@@ -18,7 +20,7 @@ const ProductSchema = mongoose.Schema(
       isAdultOnly: { type: Boolean },
       propertymap: { type: String },
       lastRenovated: { type: Date, default: new Date() },
-      thirdPartyReviewsaorAwards: { type: Boolean },
+      thirdPartyReviewsaorAwards: { type: String },
       ecoAwardsOrCertification: { type: String },
       wifi: { type: String },
       uniqueSellingPoints: { type: String },

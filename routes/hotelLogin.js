@@ -1,5 +1,5 @@
 const express = require('express');
-const { HotelUserModel } = require('../model/hotelUser');
+const { ProductModel } = require('../model/product');
 // const { allHotelUser } = require('../htelData');
 
 const hotelLoginRoutes = express.Router();
@@ -13,13 +13,12 @@ hotelLoginRoutes.post('/login', async (req, res) => {
       return res.status(404).json({ error: 'please provide a username and password' });
     }
 
-    const hotelUser = await HotelUserModel.findOne({ userName, password });
+    const hotelUser = await ProductModel.findOne({ 'hotel.userName': userName, 'hotel.password': password });
     console.log(hotelUser);
     if (!hotelUser) {
-      // return createAPIError(StatusCodes.BAD_REQUEST, `Invalid username or password!`, res);
       return res.status(404).json({ error: 'Invalid username or password' });
     }
-    res.status(200).json({ hotelUser });
+    res.status(200).json({ id: hotelUser._id });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
