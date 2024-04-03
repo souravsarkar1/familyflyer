@@ -49,8 +49,9 @@ productRoute.post('/', async (req, res) => {
     const data = req.body;
     const { userName } = data.hotel;
     const isUserRegistered = await await ProductModel.findOne({ 'hotel.userName': userName });
+    // console.log(isUserRegistered);
     if (isUserRegistered) {
-      return res.status(400).json({ message: 'User is already registered, Please try with new one' });
+      return res.status(400).json({ status: 400, message: 'User is already registered. Please try with a new one.' });
     }
     const product = new ProductModel(data);
     await product.save();
