@@ -6,6 +6,7 @@ const cors = require('cors');
 const { productRoute } = require('./routes/product.js');
 const { documentRoutes } = require('./routes/document.js');
 const { hotelLoginRoutes } = require('./routes/hotelLogin.js');
+const { hotelbedApiRoute } = require('./routes/hotelBedApiDataPopulate.js');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use('/product', productRoute);
 app.use('/document', documentRoutes);
 app.use('/user', hotelLoginRoutes);
+app.use('/hotel-bed', hotelbedApiRoute);
 app.get('/', async (req, res) => {
   try {
     res.status(200).json({ message: 'OK' });
