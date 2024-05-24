@@ -380,20 +380,19 @@ const ProductSchema = mongoose.Schema(
             ],
             roomStays: [
               {
-                facilityCode: {
-                  type: Number,
-                },
-                facilityGroupCode: {
-                  type: Number,
-                },
-                description: {
-                  content: {
-                    type: String,
+                stayType: { type: String },
+                order: { type: String },
+                description: { type: String },
+                roomStayFacilities: [
+                  {
+                    facilityCode: { type: Number },
+                    facilityGroupCode: { type: Number },
+                    description: {
+                      content: { type: String },
+                    },
+                    number: { type: Number },
                   },
-                },
-                number: {
-                  type: Number,
-                },
+                ],
               },
             ],
           },
@@ -436,6 +435,6 @@ const ProductSchema = mongoose.Schema(
   },
 );
 
-const hotelBedSchema = mongoose.model('hotelbedapi', ProductSchema);
+const hotelBedSchema = mongoose.model('hotelbedapiData', ProductSchema);
 
 module.exports = { hotelBedSchema };

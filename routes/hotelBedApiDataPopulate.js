@@ -1,91 +1,11 @@
 const express = require('express');
-const axios = require('axios');
+// const axios = require('axios');
 const { hashString } = require('../utils/hotelbedXKey');
-const { hotelPopulateFunctions } = require('../utils/hotelPopulate');
+// const { hotelPopulateFunctions } = require('../utils/hotelPopulate');
 const { hotelBedSchema } = require('../model/hotelbed');
 const hotelbedApiRoute = express.Router();
 const hashed = hashString();
 console.log(hashed, 'hashed');
-// hotelbedApiRoute.post('/', async (req, res) => {
-//   try {
-//     const code = req.body.code;
-//     let data;
-
-//     const hashed = hashString();
-//     console.log(hashed, 'hashed');
-//     try {
-//       const response = await axios.get(
-//         `https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels/${code}/details?language=ENG&useSecondaryLanguage=False`,
-//         {
-//           headers: {
-//             Accept: 'application/json',
-//             'X-Signature': hashed,
-//             'Api-key': '34396c941923d1778d1e5ad83ca974cc',
-//             'Accept-Encoding': 'gzip',
-//           },
-//         },
-//       );
-
-//       data = response.data;
-//       // console.log(response?.data?.hotel?.facilities[0]?.description?.content);
-//       // console;
-//       const extraFields = [];
-//       for (let i = 0; i < response?.data?.hotel?.facilities?.length; i++) {
-//         if (response?.data?.hotel?.facilities[i].description?.content === 'Power supply') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Total number of rooms') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Number of floors (main building)') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Smoke detector') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Currency exchange facilities') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Number of floors') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Toiletries') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Bathrobes') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Slippers') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Make-up mirror') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Room size (sqm)') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Villas') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'MasterCard') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Visa') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Shower') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Hairdryer') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Visa') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Visa') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Visa') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         } else if (response?.data?.hotel?.facilities[i].description?.content === 'Visa') {
-//           extraFields.push(response?.data?.hotel?.facilities[i]);
-//         }
-//       }
-//       let ans = hotelPopulateFunctions(data);
-//       const newHotel = new hotelBedSchema({ ...ans, extraFields: extraFields });
-//       await newHotel.save();
-//       console.log(newHotel);
-//       res.status(200).json(data);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
 
 // hotelbedApiRoute.get('/get-data', async (req, res) => {
 //   try {
