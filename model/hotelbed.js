@@ -9,6 +9,8 @@ const ProductSchema = mongoose.Schema(
       userName: { type: String },
       password: { type: String },
       hotelBedApiCode: { type: Number },
+      email: { type: String },
+      phoneNumber: [{ phoneNumber: { type: String }, phoneType: { type: String } }],
       category: { code: { type: String }, description: { type: String } }, // 5 stars , 7 stars, etc.
       chain: { code: { type: String }, description: { type: String } }, // groups together hotels that belong to the same chain
       pdfUrl: [
@@ -19,20 +21,25 @@ const ProductSchema = mongoose.Schema(
       ],
     },
     propertyInformation: {
+      description: { type: String },
       scopeOfRenovation: { type: [String] },
       stateOfRepair: { type: [String] },
       propertyType: { type: [String] },
       rating: { type: Number },
-      numberofRooms: { type: Number },
+      numberofRooms: { type: String },
       lqbtqiFriendly: { type: Boolean },
       design: { type: String },
       isAdultOnly: { type: Boolean },
+      numberOfFloor: { type: Number },
+      totalNumberOfDoubleRooms: { type: Number },
       propertymap: [
         {
           title: { type: String },
           url: { type: String },
         },
       ],
+      bungalows: { type: Number },
+      resort: { type: Boolean },
       lastRenovated: { type: Date },
       thirdPartyReviewsaorAwards: { type: [String] },
       ecoAwardsOrCertification: { type: [String] },
@@ -43,7 +50,7 @@ const ProductSchema = mongoose.Schema(
       latitude: { type: Number },
       longitude: { type: Number },
       city: { type: String },
-      roadAndNumber: { type: Number },
+      roadAndNumber: { type: String },
       suburb: { type: String },
       postCode: { type: Number },
       country: { type: String },
@@ -101,6 +108,14 @@ const ProductSchema = mongoose.Schema(
       fullBoard: { type: [String] },
       halfBoard: { type: [String] },
       breakfastIncluded: { type: Boolean },
+      boards: [
+        {
+          code: { type: String },
+          description: {
+            content: { type: String },
+          },
+        },
+      ],
     },
     beach: {
       beachType: { type: [String] },
@@ -172,6 +187,8 @@ const ProductSchema = mongoose.Schema(
       reviewsSentiments: { type: [String] },
     },
     gym: {
+      isGYMPresedOrNot: { type: Boolean },
+      isGymFree: { type: Boolean },
       qualityOfEquipment: { type: String },
       rangeofEquipment: { type: [String] },
       spaPreBookingAdvised: { type: Boolean },
@@ -206,6 +223,12 @@ const ProductSchema = mongoose.Schema(
       preBookingAdvised: { type: Boolean },
       cost: { type: Number },
       hours: { type: Number },
+      images: [
+        {
+          title: { type: String },
+          url: { type: String },
+        },
+      ],
     },
     kidsClub: {
       ratioofStafftoChildren: { type: Number },
@@ -261,10 +284,18 @@ const ProductSchema = mongoose.Schema(
       kidsFeatures: { type: [String] },
       heated: { type: Boolean },
       cleanliness: { type: String },
+      images: [
+        {
+          title: { type: String },
+          url: { type: String },
+        },
+      ],
     },
     rooms: [
       {
         // maxOccupancy: ,
+        roomCode: { type: String },
+        isParentRoom: { type: Boolean },
         maxOccupancyAdult: { type: Number },
         maxOccupancyChild: { type: Number },
         //adultAndChildCombinations: { type: Number },
@@ -280,7 +311,7 @@ const ProductSchema = mongoose.Schema(
         roomName: { type: String },
         numberOfRooms: { type: Number },
         reviewsSentiments: { type: [String] },
-        roomSize: { type: Number },
+        roomSize: { type: String },
         childAgeCategory: { type: String },
         cotAllowedAndcost: { type: String },
         rollawayBedAllowedAndCost: { type: String },
@@ -305,6 +336,7 @@ const ProductSchema = mongoose.Schema(
         laundryService: { type: Boolean },
         kitchenFacilitiesAndWhatFacilities: { type: [String] },
         safe: { type: Boolean },
+        isSmokingRoom: { type: Boolean },
         pillowMenu: { type: [String] },
         blackoutCurtains: { type: Boolean },
         FanOrAC: { type: String },
@@ -312,6 +344,67 @@ const ProductSchema = mongoose.Schema(
         babyMonitor: { type: Boolean },
         childrensToys: { type: Boolean },
         childrensCutlery: { type: Boolean },
+        description: { type: String },
+        typeOfRoom: { type: String },
+        hotelBedsData: [
+          {
+            extraFields: [
+              {
+                facilityCode: {
+                  type: Number,
+                },
+                facilityGroupCode: {
+                  type: Number,
+                },
+                description: {
+                  content: {
+                    type: String,
+                  },
+                },
+                indLogic: {
+                  type: Boolean,
+                },
+                indFee: {
+                  type: Boolean,
+                },
+                indYesOrNo: {
+                  type: Boolean,
+                },
+                number: {
+                  type: Number,
+                },
+                voucher: {
+                  type: Boolean,
+                },
+              },
+            ],
+            roomStays: [
+              {
+                facilityCode: {
+                  type: Number,
+                },
+                facilityGroupCode: {
+                  type: Number,
+                },
+                description: {
+                  content: {
+                    type: String,
+                  },
+                },
+                number: {
+                  type: Number,
+                },
+              },
+            ],
+          },
+        ],
+
+        images: [
+          {
+            title: { type: String },
+            url: { type: String },
+          },
+        ],
       },
     ],
     media: {
@@ -322,6 +415,20 @@ const ProductSchema = mongoose.Schema(
         },
       ],
     },
+    extraFields: [
+      {
+        description: {
+          content: { type: String },
+        },
+        indLogic: { type: Boolean },
+        indFee: { type: Boolean },
+        voucher: { type: Boolean },
+        number: { type: Number },
+        indYesOrNo: { type: Boolean },
+        timeFrom: { type: String },
+        timeTo: { type: String },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -329,6 +436,6 @@ const ProductSchema = mongoose.Schema(
   },
 );
 
-const hotelBedSchema = mongoose.model('Hotelbedapi', ProductSchema);
+const hotelBedSchema = mongoose.model('hotelbedapi', ProductSchema);
 
 module.exports = { hotelBedSchema };

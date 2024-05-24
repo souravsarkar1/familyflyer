@@ -4,6 +4,7 @@
 # Environment variables
 .env
 
+allExactlySameHotelName.js
 # Logs
 logs
 *.log
