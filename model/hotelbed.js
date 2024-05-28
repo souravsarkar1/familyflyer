@@ -435,6 +435,6 @@ const ProductSchema = mongoose.Schema(
   },
 );
 
-const hotelBedSchema = mongoose.model('hotelbedapiData', ProductSchema);
+const hotelBedSchema = mongoose.model('hotelbedapiDataTest', ProductSchema);
 
 module.exports = { hotelBedSchema };

@@ -8,6 +8,8 @@ const ProductSchema = mongoose.Schema(
       website: { type: String },
       userName: { type: String, required: true },
       password: { type: String, required: true },
+      email: { type: String },
+      phoneNumber: [{ phoneNumber: { type: String }, phoneType: { type: String } }],
       hotelBedApiCode: { type: Number },
       category: { code: { type: String }, description: { type: String } }, // 5 stars , 7 stars, etc.
       chain: { code: { type: String }, description: { type: String } }, // groups together hotels that belong to the same chain
@@ -43,7 +45,7 @@ const ProductSchema = mongoose.Schema(
       latitude: { type: Number },
       longitude: { type: Number },
       city: { type: String },
-      roadAndNumber: { type: Number },
+      roadAndNumber: { type: String },
       suburb: { type: String },
       postCode: { type: Number },
       country: { type: String },
@@ -140,7 +142,6 @@ const ProductSchema = mongoose.Schema(
       qualityofFish: { type: String },
       nearestOtherReefforGoodCoral: { type: String },
       onsiteMarineBiologist: { type: Boolean },
-      entryPointsAndLengthOfSwim: { type: String },
       abundanceOfReefSharks: { type: Boolean },
       reviewsSentiments: { type: [String] },
       images: [
@@ -263,10 +264,16 @@ const ProductSchema = mongoose.Schema(
       kidsFeatures: { type: [String] },
       heated: { type: Boolean },
       cleanliness: { type: String },
+      images: [
+        {
+          title: { type: String },
+          url: { type: String },
+        },
+      ],
     },
     rooms: {
-      roomCode: { type: String },
-      isParentRoom: { type: Boolean },
+      roomCode: { type: String }, // hoel bed
+      isParentRoom: { type: Boolean }, // hotel bed
       maxOccupancyAdult: { type: Number },
       maxOccupancyChild: { type: Number },
       description: { type: String },
@@ -315,6 +322,12 @@ const ProductSchema = mongoose.Schema(
       babyMonitor: { type: Boolean },
       childrensToys: { type: Boolean },
       childrensCutlery: { type: Boolean },
+      images: [
+        {
+          title: { type: String },
+          url: { type: String },
+        },
+      ],
     },
     media: {
       images: [

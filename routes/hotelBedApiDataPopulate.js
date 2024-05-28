@@ -1,84 +1,82 @@
 const express = require('express');
-// const axios = require('axios');
+const axios = require('axios');
 const { hashString } = require('../utils/hotelbedXKey');
-// const { hotelPopulateFunctions } = require('../utils/hotelPopulate');
+const { hotelPopulateFunctions } = require('../utils/hotelPopulate');
 const { hotelBedSchema } = require('../model/hotelbed');
+const fs = require('fs');
 const hotelbedApiRoute = express.Router();
 const hashed = hashString();
 console.log(hashed, 'hashed');
 
-// hotelbedApiRoute.get('/get-data', async (req, res) => {
-//   try {
-//     const allHotels = [
-//       50568, 50570, 50571, 61320, 63321, 80432, 80433, 87438, 91431, 93375, 93376, 93377, 106438, 108520, 108521,
-//       108522, 108524, 108525, 110093, 111636, 112087, 112633, 114241, 120192, 120193, 120196, 123541, 128332, 137378,
-//       137380, 137381, 137382, 137744, 137845, 137847, 137849, 138607, 138608, 141906, 141907, 141908, 145084, 152772,
-//       163391, 163450, 163451, 164122, 164527, 164921, 168933, 168938, 168942, 169876, 169878, 169879, 171148, 171446,
-//       171552, 172192, 172411, 172412, 173633, 173878, 173879, 173933, 176446, 182907, 184210, 191051, 191099, 191270,
-//       194605, 198712, 215386, 218351, 222514, 230652, 230960, 234724, 254245, 254888, 254889, 317344, 317586, 317713,
-//       318655, 319179, 319436, 320094, 320232, 320372, 320458, 320680, 321288, 321468, 322279, 358305, 363697, 364717,
-//       369197, 386238, 396433, 403878, 406000, 406798, 422504, 429638, 430558, 439641, 446902, 460741, 470941, 477181,
-//       480261, 503087, 518645, 545481, 547322, 547562, 547581, 557606, 558661, 558961, 558982, 572901, 574901, 579522,
-//       586258, 590482, 598881, 608861, 611003, 613303, 619642, 623841, 625030, 626641, 627761, 639603, 641382, 645339,
-//       645361, 652052, 655249, 656837, 658925, 665464, 666004, 666063, 667937, 668333, 674806, 676087, 681767, 682397,
-//       682398, 682402, 683607, 683608, 683610, 683990, 684663, 684905, 685037, 686202, 686203, 686204, 686703, 686705,
-//       686820, 688562, 693608, 694283, 694284, 694285, 694435, 694438, 695248, 695790, 697417, 700691, 702787, 703303,
-//       703437, 703438, 704159, 706417, 706419, 709803, 710006, 710201, 711778, 724944, 740581, 752789, 773038, 773440,
-//       777828, 783040, 783058, 791852, 791864, 791873, 797577, 801643, 807815, 807816, 827188, 827201, 840334, 841545,
-//       856485, 865686, 879276, 885682, 886694, 893689, 911814, 912514, 915202, 918764, 929332, 934600, 934602, 935498,
-//       942923, 943138, 943387, 944300, 944305, 945220, 948557, 948990, 949733, 950406, 958829, 972843, 973039, 989537,
-//       989920, 990018, 992905, 992983, 993922, 994564, 994692, 994718, 996566, 996795, 998470, 1001026, 1002879, 1003759,
-//       1008585, 1009261, 1025330, 1026537,
-//     ];
+hotelbedApiRoute.get('/get-data', async (req, res) => {
+  try {
+    const allHotels = [
+      108525, 108524, 108522, 108520, 108521, 918764, 993922, 403878, 396433, 137847, 222514, 137845, 168938, 168942,
+      358305, 972843, 318655, 684905, 120196, 168933, 992983, 87438, 992905, 176446, 114241, 171552, 80433, 137849,
+      665464, 173879, 173878, 574901, 194605, 254245, 111636, 141906, 141907, 547581, 480261, 317586, 163391, 106438,
+      106438, 91431, 911814, 627761, 120192, 623841, 319179, 163450, 112087, 320680, 439641, 598881, 558661, 169879,
+      586258, 658925, 666063, 893689, 120193, 123541, 558982, 230652, 198712, 996795, 137382, 942923, 703303, 915202,
+      172192, 686820, 686202, 879276, 724944, 558961, 626641, 773440, 184210, 138607, 886694, 686705, 547562, 191051,
+      93377, 61320, 138608, 128332, 319436, 320372, 470941, 112633, 93375, 518645, 547322, 145084, 639603, 137744,
+      406798, 363697, 234724, 163451, 948990, 152772, 994564, 827201, 320232, 320232, 164527, 676087, 710201, 652052,
+      688562, 164122, 590482, 429638, 655249, 656837, 994692, 645339, 460741, 477181, 63321, 169876, 1001026, 169878,
+      557606, 668333, 317344, 254888, 137378, 137380, 369197, 681767, 215386, 777828, 545481, 684663, 641382, 682397,
+      807816, 422504, 80432, 364717, 50483, 110093, 645361, 666004,
+    ];
+    let errorCode = [];
+    const chunkSize = 3; // Number of requests per batch
+    const delay = 10000; // Delay between batches in milliseconds (10 seconds)
 
-//     const chunkSize = 3; // Number of requests per batch
-//     const delay = 10000; // Delay between batches in milliseconds (10 seconds)
+    const chunks = [];
+    for (let i = 0; i < allHotels.length; i += chunkSize) {
+      chunks.push(allHotels.slice(i, i + chunkSize));
+    }
+    const processBatch = async (batch, index) => {
+      for (const code of batch) {
+        try {
+          const response = await axios.get(
+            `https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels/${code}/details?language=ENG&useSecondaryLanguage=False`,
+            {
+              headers: {
+                Accept: 'application/json',
+                'X-Signature': hashed,
+                'Api-key': '34396c941923d1778d1e5ad83ca974cc',
+                'Accept-Encoding': 'gzip',
+              },
+            },
+          );
+          const data = response.data;
 
-//     const chunks = [];
-//     for (let i = 0; i < allHotels.length; i += chunkSize) {
-//       chunks.push(allHotels.slice(i, i + chunkSize));
-//     }
-//     const processBatch = async (batch, index) => {
-//       for (const code of batch) {
-//         try {
-//           const response = await axios.get(
-//             `https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels/${code}/details?language=ENG&useSecondaryLanguage=False`,
-//             {
-//               headers: {
-//                 Accept: 'application/json',
-//                 'X-Signature': hashed,
-//                 'Api-key': '34396c941923d1778d1e5ad83ca974cc',
-//                 'Accept-Encoding': 'gzip',
-//               },
-//             },
-//           );
-//           const data = response.data;
+          const ans = hotelPopulateFunctions(data);
+          // console.log(Array.isArray(ans.rooms[0].hotelBedsData[0]?.extraFields));
+          try {
+            const newHotel = new hotelBedSchema({ ...ans });
+            await newHotel.save();
+            console.log(newHotel);
+          } catch (error) {
+            errorCode.push(code);
+          }
+        } catch (error) {
+          console.error(`Error fetching data for hotel code ${code}:`, error);
+        }
+      }
+      if (index === chunks.length - 1) {
+        res.status(200).json({ message: 'All data processed successfully' });
+      }
+    };
 
-//           const ans = hotelPopulateFunctions(data);
-//           // console.log(Array.isArray(ans.rooms[0].hotelBedsData[0]?.extraFields));
-//           const newHotel = new hotelBedSchema({ ...ans });
-//           await newHotel.save();
-//           console.log(newHotel);
-//         } catch (error) {
-//           console.error(`Error fetching data for hotel code ${code}:`, error);
-//         }
-//       }
-//       if (index === chunks.length - 1) {
-//         res.status(200).json({ message: 'All data processed successfully' });
-//       }
-//     };
-
-//     for (let i = 0; i < chunks.length; i++) {
-//       setTimeout(() => {
-//         processBatch(chunks[i], i);
-//       }, i * delay);
-//       console.log(`Processing ${i} chunks`);
-//     }
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
+    for (let i = 0; i < chunks.length; i++) {
+      setTimeout(() => {
+        processBatch(chunks[i], i);
+      }, i * delay);
+      console.log(`Processing ${i} chunks`);
+    }
+    fs.writeSync('errorCode.json', JSON.stringify(errorCode));
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 hotelbedApiRoute.post('/populate', async (req, res) => {
   try {
@@ -99,6 +97,39 @@ hotelbedApiRoute.get('/get-all', async (req, res) => {
   try {
     const allHotels = await hotelBedSchema.find();
     res.status(200).json(allHotels);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+hotelbedApiRoute.get('/get-all-name', async (req, res) => {
+  try {
+    const allHotelsCode = [
+      108525, 108524, 108522, 108520, 108521, 918764, 993922, 403878, 396433, 137847, 222514, 137845, 168938, 168942,
+      358305, 972843, 318655, 684905, 120196, 168933, 992983, 87438, 992905, 176446, 114241, 171552, 80433, 137849,
+      665464, 173879, 173878, 574901, 194605, 254245, 111636, 141906, 141907, 547581, 480261, 317586, 163391, 106438,
+      106438, 91431, 911814, 627761, 120192, 623841, 319179, 163450, 112087, 320680, 439641, 598881, 558661, 169879,
+      586258, 658925, 666063, 893689, 120193, 123541, 558982, 230652, 198712, 996795, 137382, 942923, 703303, 915202,
+      172192, 686820, 686202, 879276, 724944, 558961, 626641, 773440, 184210, 138607, 886694, 686705, 547562, 191051,
+      93377, 61320, 138608, 128332, 319436, 320372, 470941, 112633, 93375, 518645, 547322, 145084, 639603, 137744,
+      406798, 363697, 234724, 163451, 948990, 152772, 994564, 827201, 320232, 320232, 164527, 676087, 710201, 652052,
+      688562, 164122, 590482, 429638, 655249, 656837, 994692, 645339, 460741, 477181, 63321, 169876, 1001026, 169878,
+      557606, 668333, 317344, 254888, 137378, 137380, 369197, 681767, 215386, 777828, 545481, 684663, 641382, 682397,
+      807816, 422504, 80432, 364717, 50483, 110093, 645361, 666004,
+    ];
+
+    const allHotels = await hotelBedSchema.find();
+    const allHotelsName = new Set(allHotels.map(item => item.hotel.hotelBedApiCode));
+    const newHotel = [];
+
+    for (const code of allHotelsCode) {
+      if (!allHotelsName.has(code)) {
+        newHotel.push(code);
+      }
+    }
+
+    res.status(200).json(newHotel);
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
