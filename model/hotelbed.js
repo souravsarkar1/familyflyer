@@ -21,6 +21,7 @@ const ProductSchema = mongoose.Schema(
       ],
     },
     propertyInformation: {
+      languagesSpoken: { type: [String] }, // add by me
       description: { type: String },
       scopeOfRenovation: { type: [String] },
       stateOfRepair: { type: [String] },
@@ -435,6 +436,6 @@ const ProductSchema = mongoose.Schema(
   },
 );
 
-const hotelBedSchema = mongoose.model('hotelbedapiDataTest', ProductSchema);
+const hotelBedSchema = mongoose.model('hotelbedapidata', ProductSchema);
 
 module.exports = { hotelBedSchema };

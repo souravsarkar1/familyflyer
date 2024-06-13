@@ -3,6 +3,7 @@ const express = require('express');
 const { ProductModel } = require('../model/product');
 // const { newHotels } = require('./allHotel');
 const { log } = require('console');
+const { newHotels } = require('./allHotel');
 
 const productRoute = express.Router();
 
@@ -11,7 +12,7 @@ productRoute.get('/', async (req, res) => {
   try {
     // Extract pagination parameters from the request query
     // const { page = 1, pageSize = 5 } = req.query;
-
+    // pagenatio https://chatgpt.com/c/aa1be9da-3e52-42a4-a3f3-ed150389b29b
     // Convert page and pageSize to numbers
     // const pageNumber = parseInt(page);
     // const pageSizeNumber = parseInt(pageSize);
@@ -76,7 +77,7 @@ productRoute.put('/:id', async (req, res) => {
     }
 
     // Find the product by ID and update it with the new data
-    const product = await ProductModel.findByIdAndUpdate(id, data, { new: true });
+    const product = await ProductModel.findByIdAndUpdate(id, data, { new: null });
 
     // Check if the product exists
     if (!product) {
@@ -120,330 +121,330 @@ productRoute.delete('/:id', async (req, res) => {
   }
 });
 
-// productRoute.post('/hit-this', async (req, res) => {
-//   try {
-//     console.log(newHotels, 'hotels');
-//     const updatedHotels = newHotels.map(item => {
-//       return {
-//         hotel: {
-//           name: item?.name,
-//           address: item?.address,
-//           website: item?.website,
-//           website: item?.website,
-//           userName: item?.userName,
-//           password: item?.password,
-//         },
-//         propertyInformation: {
-//           scopeOfRenovation: [''],
-//           stateOfRepair: [''],
-//           propertyType: [''],
-//           rating: 0,
-//           numberofRooms: 0,
-//           lqbtqiFriendly: true,
-//           design: '',
-//           isAdultOnly: true,
-//           propertymap: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//           lastRenovated: '',
-//           thirdPartyReviewsaorAwards: [''],
-//           ecoAwardsOrCertification: [''],
-//           wifi: true,
-//           uniqueSellingPoints: [''],
-//         },
-//         location: {
-//           latitude: 0,
-//           longitude: 0,
-//           city: '',
-//           roadAndNumber: 0,
-//           suburb: '',
-//           postCode: 0,
-//           country: '',
-//           state: '',
-//           atoll: '',
-//         },
-//         healthSafety: {
-//           lastReviewDate: '',
-//           rating: 0,
-//           comments: [''],
-//           policyForEvacuation: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//           medicalEmergencyPolicy: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//           doctorOnSite: true,
-//           doctorIsPermanent: true,
-//           nurseOnsite: true,
-//           nurseIsPermanent: true,
-//           onPremiseQualifications: [''], // doctor should have a masters degree
-//           defibrillatorsOnProperty: true,
-//           defibrillatorsByPool: true,
-//           nearestClinicHospital: [''],
-//           specialitiesOfNearestHospital: [''],
-//           nearestChildrenHospital: [''],
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//         },
-//         transferOptions: {
-//           weatherlimited: true,
-//           timeLimitedbyTransferType: true, // transport types has only slow options (horse, boat)
-//           hotelFacilitatesTransferBooking: true,
-//           qualityofBoats: '',
-//           transferOption: '',
-//           boatschedules: [''],
-//           seaplaneSchedules: [''],
-//           seaplaneProviders: [''],
-//           domesticAirlineSchedules: [''],
-//           likelihoodofDelays: '',
-//           distanceOrTimeFromMale: '',
-//           meetAndGreetAtAirport: '',
-//         },
-//         features: {
-//           fullBoard: [''],
-//           halfBoard: [''],
-//           breakfastIncluded: true,
-//         },
-//         beach: {
-//           beachType: [''],
-//           length: 0,
-//           features: [''],
-//           instagramSpots: [''],
-//           tidesRips: true,
-//           hoursofLifeguardDuty: 0,
-//           areaOfBeachPatrolledbyLifeguards: '',
-//           lifeguardQualifications: [''],
-//           areSomePartsofTheBeachOnlyForPrivateUse: true,
-//           willBeachVillasbeDisturbed: true,
-//           cleanliness: '',
-//           include: [''],
-//           BBQSpots: [''],
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//         },
+productRoute.post('/hit-this', async (req, res) => {
+  try {
+    console.log(newHotels, 'hotels');
+    const updatedHotels = newHotels.map(item => {
+      return {
+        hotel: {
+          name: item?.name,
+          address: item?.address,
+          website: item?.website,
+          userName: item?.userName,
+          password: item?.papassword,
 
-//         reef: {
-//           entryPointSandLengthofSwim: '',
-//           accessibleFromBeach: true,
-//           houseReefAccessiblebyBoat: true,
-//           houseReefAccessibleCost: 0,
-//           accessiblebyBoat: true,
-//           costTravel: 0,
-//           travelTime: 0,
-//           sites: [''],
-//           outerReef: true,
-//           qualityOfCoral: '',
-//           houseReef: true,
-//           distanceFromBeach: '',
-//           qualityofFish: '',
-//           nearestOtherReefforGoodCoral: '',
-//           onsiteMarineBiologist: true,
-//           entryPointsAndLengthOfSwim: '',
-//           abundanceOfReefSharks: true,
-//           reviewsSentiments: [''],
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//         },
-//         waterSports: {
-//           diving: true,
-//           affiliation: true,
-//           sites: [''],
-//           languagesSpoken: [''],
-//           submarineTour: true,
-//           costs: 0,
-//           maximumOccupancy: 0,
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//           waterFlotationDevicesProvided: true,
-//           minimumAge: 0,
-//           equipmentProvided: true,
-//           otherServices: [''],
-//           nameOfSurfSite: '',
-//           reviewsSentiments: [''],
-//         },
-//         gym: {
-//           qualityOfEquipment: '',
-//           rangeofEquipment: [''],
-//           spaPreBookingAdvised: true,
-//           classes: true,
-//           specialistMachines: true,
-//           trainerOnSite: true,
-//           cost: 0,
-//           openingTimes: '',
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//           reviewsSentiments: [''],
-//         },
-//         activities: {
-//           activitiesAvailable: [''],
-//           stingrayOrFishFeeding: true,
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//           cost: 0,
-//         },
-//         spa: {
-//           typesServices: [''],
-//           reviewsSentiments: [''],
-//           numberOfRooms: 0,
-//           preBookingAdvised: true,
-//           cost: 0,
-//           hours: 0,
-//         },
-//         kidsClub: {
-//           ratioofStafftoChildren: 0,
-//           staffQualifications: [''],
-//           languagesSpoken: [''],
-//           hours: 0,
-//           cost: 0,
-//           preBookingAdvised: true,
-//           agesAccommodated: '',
-//           activities: [''],
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//         },
-//         foodAndBeverage: {
-//           InclusionsOrExclusionsforFullOrhalfBoard: true,
-//           extraCostForRoomService: true,
-//           numberOfBarsAndNames: [''],
-//           hoursOfOperation: 0,
-//           specialties: [''],
-//           numberOfRestaurantsandNames: [''],
-//           typesOfCuisine: [''],
-//           halaalOption: true,
-//           kidsMenu: [''],
-//           roomService: true,
-//           reviewsSentiments: [''],
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//         },
-//         services: {
-//           trainingOrQualifications: [''],
-//           needToPreBook: true,
-//           safetyFeatures: [''],
-//           isNannyavAilable: true,
-//           cost: 0,
-//         },
-//         pool: {
-//           length: 0,
-//           depth: 0,
-//           width: 0,
-//           lapPool: true,
-//           safetyFeatures: [''],
-//           totalNumberOfPool: 0,
-//           reviewsSentiments: [''],
-//           IsadultOnly: true,
-//           kidsFeatures: [''],
-//           heated: true,
-//           cleanliness: '',
-//         },
-//         rooms: {
-//           // maxOccupancy: ,
-//           maxOccupancyAdult: 0,
-//           maxOccupancyChild: 0,
-//           //adultAndChildCombinations: 0,
-//           NeedtoPreBookExtraBedding: true,
-//           safetyFeaturesifOverwaterBungalow: [''],
-//           safetyFeaturesForBalcony: [''],
-//           safetyFeaturesForPool: [''],
-//           commentsOnHowPrivacyIsImpacted: '',
-//           interconnected: true,
-//           noiseAtNight: '',
-//           privacyLevelsGoodEnoughForStrictMuslim: '',
-//           movieSystemsOrDVDs: true,
-//           roomName: '',
-//           numberOfRooms: 0,
-//           reviewsSentiments: [''],
-//           roomSize: 0,
-//           childAgeCategory: '',
-//           cotAllowedAndcost: '',
-//           rollawayBedAllowedAndCost: '',
-//           roomLayoutMap: '',
-//           separateToilet: true,
-//           separateLivinRoomwoutDoor: true,
-//           needToPreBookExtrabedding: true,
-//           numberOfBathrooms: 0,
-//           bath: '',
-//           freeWifi: true,
-//           balconyPatio: true,
-//           privatePool: true,
-//           dimensionsOfPool: '',
-//           poolHeated: true,
-//           overwater: true,
-//           beachAccess: true,
-//           isTV: true,
-//           ironIroningBoard: true,
-//           teaOrCoffeeOrKettle: true,
-//           isMicrowave: true,
-//           musicSystem: true,
-//           laundryService: true,
-//           kitchenFacilitiesAndWhatFacilities: [''],
-//           safe: true,
-//           pillowMenu: [''],
-//           blackoutCurtains: true,
-//           FanOrAC: '',
-//           babyBath: true,
-//           babyMonitor: true,
-//           childrensToys: true,
-//           childrensCutlery: true,
-//         },
-//         media: {
-//           images: [
-//             {
-//               title: '',
-//               url: '',
-//             },
-//           ],
-//         },
-//       };
-//     });
+        },
+        propertyInformation: {
+          scopeOfRenovation: [''],
+          stateOfRepair: [''],
+          propertyType: [''],
+          rating: 0,
+          numberofRooms: 0,
+          lqbtqiFriendly: null,
+          design: '',
+          isAdultOnly: null,
+          propertymap: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+          lastRenovated: '',
+          thirdPartyReviewsaorAwards: [''],
+          ecoAwardsOrCertification: [''],
+          wifi: null,
+          uniqueSellingPoints: [''],
+        },
+        location: {
+          latitude: 0,
+          longitude: 0,
+          city: '',
+          roadAndNumber: 0,
+          suburb: '',
+          postCode: 0,
+          country: '',
+          state: '',
+          atoll: '',
+        },
+        healthSafety: {
+          lastReviewDate: '',
+          rating: 0,
+          comments: [''],
+          policyForEvacuation: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+          medicalEmergencyPolicy: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+          doctorOnSite: null,
+          doctorIsPermanent: null,
+          nurseOnsite: null,
+          nurseIsPermanent: null,
+          onPremiseQualifications: [''], // doctor should have a masters degree
+          defibrillatorsOnProperty: null,
+          defibrillatorsByPool: null,
+          nearestClinicHospital: [''],
+          specialitiesOfNearestHospital: [''],
+          nearestChildrenHospital: [''],
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+        },
+        transferOptions: {
+          weatherlimited: null,
+          timeLimitedbyTransferType: null, // transport types has only slow options (horse, boat)
+          hotelFacilitatesTransferBooking: null,
+          qualityofBoats: '',
+          transferOption: '',
+          boatschedules: [''],
+          seaplaneSchedules: [''],
+          seaplaneProviders: [''],
+          domesticAirlineSchedules: [''],
+          likelihoodofDelays: '',
+          distanceOrTimeFromMale: '',
+          meetAndGreetAtAirport: '',
+        },
+        features: {
+          fullBoard: [''],
+          halfBoard: [''],
+          breakfastIncluded: null,
+        },
+        beach: {
+          beachType: [''],
+          length: 0,
+          features: [''],
+          instagramSpots: [''],
+          tidesRips: null,
+          hoursofLifeguardDuty: 0,
+          areaOfBeachPatrolledbyLifeguards: '',
+          lifeguardQualifications: [''],
+          areSomePartsofTheBeachOnlyForPrivateUse: null,
+          willBeachVillasbeDisturbed: null,
+          cleanliness: '',
+          include: [''],
+          BBQSpots: [''],
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+        },
 
-//     await ProductModel.insertMany(updatedHotels);
-//     return res.send('OK');
-//   } catch (error) {
-//     console.error('Error deleting product:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
+        reef: {
+          entryPointSandLengthofSwim: '',
+          accessibleFromBeach: null,
+          houseReefAccessiblebyBoat: null,
+          houseReefAccessibleCost: 0,
+          accessiblebyBoat: null,
+          costTravel: 0,
+          travelTime: 0,
+          sites: [''],
+          outerReef: null,
+          qualityOfCoral: '',
+          houseReef: null,
+          distanceFromBeach: '',
+          qualityofFish: '',
+          nearestOtherReefforGoodCoral: '',
+          onsiteMarineBiologist: null,
+          entryPointsAndLengthOfSwim: '',
+          abundanceOfReefSharks: null,
+          reviewsSentiments: [''],
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+        },
+        waterSports: {
+          diving: null,
+          affiliation: null,
+          sites: [''],
+          languagesSpoken: [''],
+          submarineTour: null,
+          costs: 0,
+          maximumOccupancy: 0,
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+          waterFlotationDevicesProvided: null,
+          minimumAge: 0,
+          equipmentProvided: null,
+          otherServices: [''],
+          nameOfSurfSite: '',
+          reviewsSentiments: [''],
+        },
+        gym: {
+          qualityOfEquipment: '',
+          rangeofEquipment: [''],
+          spaPreBookingAdvised: null,
+          classes: null,
+          specialistMachines: null,
+          trainerOnSite: null,
+          cost: 0,
+          openingTimes: '',
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+          reviewsSentiments: [''],
+        },
+        activities: {
+          activitiesAvailable: [''],
+          stingrayOrFishFeeding: null,
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+          cost: 0,
+        },
+        spa: {
+          typesServices: [''],
+          reviewsSentiments: [''],
+          numberOfRooms: 0,
+          preBookingAdvised: null,
+          cost: 0,
+          hours: 0,
+        },
+        kidsClub: {
+          ratioofStafftoChildren: 0,
+          staffQualifications: [''],
+          languagesSpoken: [''],
+          hours: 0,
+          cost: 0,
+          preBookingAdvised: null,
+          agesAccommodated: '',
+          activities: [''],
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+        },
+        foodAndBeverage: {
+          InclusionsOrExclusionsforFullOrhalfBoard: null,
+          extraCostForRoomService: null,
+          numberOfBarsAndNames: [''],
+          hoursOfOperation: 0,
+          specialties: [''],
+          numberOfRestaurantsandNames: [''],
+          typesOfCuisine: [''],
+          halaalOption: null,
+          kidsMenu: [''],
+          roomService: null,
+          reviewsSentiments: [''],
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+        },
+        services: {
+          trainingOrQualifications: [''],
+          needToPreBook: null,
+          safetyFeatures: [''],
+          isNannyavAilable: null,
+          cost: 0,
+        },
+        pool: {
+          length: 0,
+          depth: 0,
+          width: 0,
+          lapPool: null,
+          safetyFeatures: [''],
+          totalNumberOfPool: 0,
+          reviewsSentiments: [''],
+          IsadultOnly: null,
+          kidsFeatures: [''],
+          heated: null,
+          cleanliness: '',
+        },
+        rooms: {
+          // maxOccupancy: ,
+          maxOccupancyAdult: 0,
+          maxOccupancyChild: 0,
+          //adultAndChildCombinations: 0,
+          NeedtoPreBookExtraBedding: null,
+          safetyFeaturesifOverwaterBungalow: [''],
+          safetyFeaturesForBalcony: [''],
+          safetyFeaturesForPool: [''],
+          commentsOnHowPrivacyIsImpacted: '',
+          interconnected: null,
+          noiseAtNight: '',
+          privacyLevelsGoodEnoughForStrictMuslim: '',
+          movieSystemsOrDVDs: null,
+          roomName: '',
+          numberOfRooms: 0,
+          reviewsSentiments: [''],
+          roomSize: 0,
+          childAgeCategory: '',
+          cotAllowedAndcost: '',
+          rollawayBedAllowedAndCost: '',
+          roomLayoutMap: '',
+          separateToilet: null,
+          separateLivinRoomwoutDoor: null,
+          needToPreBookExtrabedding: null,
+          numberOfBathrooms: 0,
+          bath: '',
+          freeWifi: null,
+          balconyPatio: null,
+          privatePool: null,
+          dimensionsOfPool: '',
+          poolHeated: null,
+          overwater: null,
+          beachAccess: null,
+          isTV: null,
+          ironIroningBoard: null,
+          teaOrCoffeeOrKettle: null,
+          isMicrowave: null,
+          musicSystem: null,
+          laundryService: null,
+          kitchenFacilitiesAndWhatFacilities: [''],
+          safe: null,
+          pillowMenu: [''],
+          blackoutCurtains: null,
+          FanOrAC: '',
+          babyBath: null,
+          babyMonitor: null,
+          childrensToys: null,
+          childrensCutlery: null,
+        },
+        media: {
+          images: [
+            {
+              title: '',
+              url: '',
+            },
+          ],
+        },
+      };
+    });
+
+    await ProductModel.insertMany(updatedHotels);
+    return res.send('OK');
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = { productRoute };

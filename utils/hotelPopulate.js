@@ -109,15 +109,15 @@ const hotelPopulateFunctions = hotelData => {
     },
     propertyInformation: {
       numberOfFloor: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Number of floors (main building)',
         'Number',
         'numberOfFloor',
       ),
-      bungalows: findTheFieldExistOrNotInFacilities(hotelData.hotel.facilities, 'Bungalows', 'Number', 'bungalows'),
-      resort: findTheFieldExistOrNotInFacilities(hotelData.hotel.facilities, 'resort', 'Boolean', 'resort'),
+      bungalows: findTheFieldExistOrNotInFacilities(hotelData?.hotel?.facilities, 'Bungalows', 'Number', 'bungalows'),
+      resort: findTheFieldExistOrNotInFacilities(hotelData?.hotel?.facilities, 'resort', 'Boolean', 'resort'),
       totalNumberOfDoubleRooms: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Double rooms',
         'Number',
         'numberofRooms',
@@ -126,43 +126,43 @@ const hotelPopulateFunctions = hotelData => {
       //'Double rooms'
       description: hotelData?.hotel?.description?.content,
       scopeOfRenovation: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Year of most recent renovation',
         'StringofArr',
         'scopeOfRenovation',
       ),
       stateOfRepair: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Year of most recent renovation',
         'StringofArr',
         'stateOfRepair',
       ),
-      propertyType: hotelData.hotel.categoryGroup.description.content,
-      rating: hotelData?.hotel['S2C'].split('')[0],
+      propertyType: hotelData?.hotel?.categoryGroup?.description?.content,
+      rating: hotelData?.hotel?.['S2C']?.split('')[0],
       numberofRooms: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Total number of rooms',
         'Number',
         'numberofRooms',
       ),
       lqbtqiFriendly: null,
       design:
-        hotelData.hotel.accommodationType.typeMultiDescription.content +
+        hotelData?.hotel?.accommodationType?.typeMultiDescription?.content +
         ' ' +
-        hotelData.hotel.accommodationType.typeDescription,
+        hotelData?.hotel?.accommodationType?.typeDescription,
       isAdultOnly: null,
       propertymap: [],
       lastRenovated: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Year of most recent renovation',
         'StringofArr',
         'lastRenovated',
       ), // Set to a default value or extract from the data if available
       thirdPartyReviewsaorAwards: [],
       ecoAwardsOrCertification: [],
-      wifi: findTheFieldExistOrNotInFacilities(hotelData.hotel.facilities, 'Wi-fi', 'Boolean', 'wifi'),
+      wifi: findTheFieldExistOrNotInFacilities(hotelData?.hotel?.facilities, 'Wi-fi', 'Boolean', 'wifi'),
       uniqueSellingPoints: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Extra beds on demand',
         'StringofArr',
         'uniqueSellingPoints',
@@ -182,7 +182,7 @@ const hotelPopulateFunctions = hotelData => {
     healthSafety: {
       lastReviewDate: new Date(),
       rating: 0,
-      comments: findTheFieldExistOrNotInFacilities(hotelData.hotel, 'Medical service', 'StringofArr', 'comments'),
+      comments: findTheFieldExistOrNotInFacilities(hotelData?.hotel, 'Medical service', 'StringofArr', 'comments'),
       policyForEvacuation: [],
       medicalEmergencyPolicy: [],
       doctorOnSite: null,
@@ -195,15 +195,14 @@ const hotelPopulateFunctions = hotelData => {
       nearestClinicHospital: [],
       specialitiesOfNearestHospital: [],
       nearestChildrenHospital: [],
-      images: hotelData.hotel.images
-        .filter(
-          item =>
-            item?.type?.description?.content?.toUpperCase().includes('HEALTH') ||
-            item?.type?.description?.content?.toUpperCase().includes('MEDICAL') ||
-            item?.type?.description?.content?.toUpperCase().includes('SAFETY') ||
-            item?.type?.description?.content?.toUpperCase().includes('FIRST') ||
-            item?.type?.description?.content?.toUpperCase().includes('AID'),
-        )
+      images: hotelData?.hotel?.images?.filter(
+        item =>
+          item?.type?.description?.content?.toUpperCase().includes('HEALTH') ||
+          item?.type?.description?.content?.toUpperCase().includes('MEDICAL') ||
+          item?.type?.description?.content?.toUpperCase().includes('SAFETY') ||
+          item?.type?.description?.content?.toUpperCase().includes('FIRST') ||
+          item?.type?.description?.content?.toUpperCase().includes('AID'),
+      )
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -230,7 +229,7 @@ const hotelPopulateFunctions = hotelData => {
       boards: hotelData?.hotel?.boards,
     },
     beach: {
-      beachType: findBeachType(hotelData.hotel.facilities),
+      beachType: findBeachType(hotelData?.hotel?.facilities),
       length: 0,
       features: [],
       instagramSpots: [],
@@ -243,8 +242,7 @@ const hotelPopulateFunctions = hotelData => {
       cleanliness: '',
       include: [],
       BBQSpots: [],
-      images: hotelData.hotel.images
-        .filter(item => item?.type?.description?.content?.toUpperCase().includes('BEACH'))
+      images: hotelData?.hotel?.images?.filter(item => item?.type?.description?.content?.toUpperCase().includes('BEACH'))
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -269,8 +267,7 @@ const hotelPopulateFunctions = hotelData => {
       entryPointsAndLengthOfSwim: '',
       abundanceOfReefSharks: null,
       reviewsSentiments: [],
-      images: hotelData.hotel.images
-        .filter(item => item?.type?.description?.content?.toUpperCase().includes('REEF'))
+      images: hotelData.hotel.images?.filter(item => item?.type?.description?.content?.toUpperCase().includes('REEF'))
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -291,8 +288,7 @@ const hotelPopulateFunctions = hotelData => {
       otherServices: [],
       nameOfSurfSite: '',
       reviewsSentiments: [],
-      images: hotelData.hotel.images
-        .filter(item => item?.type?.description?.content?.toUpperCase().includes('SPORTS'))
+      images: hotelData.hotel.images?.filter(item => item?.type?.description?.content?.toUpperCase().includes('SPORTS'))
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -301,12 +297,12 @@ const hotelPopulateFunctions = hotelData => {
     gym: {
       //(data, field, returnType, subfield)
       isGYMPresedOrNot: findTheFieldExistOrNotInFacilities(
-        hotelData.hotel.facilities,
+        hotelData?.hotel?.facilities,
         'Gym',
         'Boolean',
         'isGYMPresedOrNot',
       ),
-      isGymFree: findTheFieldExistOrNotInFacilities(hotelData.hotel.facilities, 'Boolean', 'Gym', 'isGymFree'),
+      isGymFree: findTheFieldExistOrNotInFacilities(hotelData?.hotel?.facilities, 'Boolean', 'Gym', 'isGymFree'),
       qualityOfEquipment: '',
       rangeofEquipment: [],
       spaPreBookingAdvised: null,
@@ -315,8 +311,7 @@ const hotelPopulateFunctions = hotelData => {
       trainerOnSite: null,
       cost: 0,
       openingTimes: '',
-      images: hotelData.hotel.images
-        .filter(item => item?.type?.description?.content?.toUpperCase().includes('GYM'))
+      images: hotelData?.hotel?.images?.filter(item => item?.type?.description?.content?.toUpperCase().includes('GYM'))
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -326,12 +321,11 @@ const hotelPopulateFunctions = hotelData => {
     activities: {
       activitiesAvailable: [],
       stingrayOrFishFeeding: null,
-      images: hotelData.hotel.images
-        .filter(
-          item =>
-            item?.type?.description?.content?.toUpperCase().includes('islands'.toUpperCase()) ||
-            item?.type?.description?.content?.toUpperCase().includes('mesmerizing'.toUpperCase()),
-        )
+      images: hotelData?.hotel?.images?.filter(
+        item =>
+          item?.type?.description?.content?.toUpperCase().includes('islands'.toUpperCase()) ||
+          item?.type?.description?.content?.toUpperCase().includes('mesmerizing'.toUpperCase()),
+      )
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -339,15 +333,14 @@ const hotelPopulateFunctions = hotelData => {
       cost: 0,
     },
     spa: {
-      typesServices: addSpaTypes(hotelData.hotel.facilities),
+      typesServices: addSpaTypes(hotelData?.hotel?.facilities),
 
       reviewsSentiments: [],
-      numberOfRooms: findTheFieldExistOrNot(hotelData.hotel.facilities, 'Total number of rooms'),
+      numberOfRooms: findTheFieldExistOrNot(hotelData?.hotel?.facilities, 'Total number of rooms'),
       preBookingAdvised: null,
       cost: 0,
       hours: 0,
-      images: hotelData.hotel.images
-        .filter(item => item?.type?.description?.content?.toUpperCase().includes('SPA'))
+      images: hotelData.hotel.images?.filter(item => item?.type?.description?.content?.toUpperCase().includes('SPA'))
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -376,8 +369,7 @@ const hotelPopulateFunctions = hotelData => {
       kidsMenu: [],
       roomService: null,
       reviewsSentiments: [],
-      images: hotelData.hotel.images
-        .filter(item => item?.type?.description?.content?.toUpperCase().includes('FOOD'))
+      images: hotelData.hotel.images?.filter(item => item?.type?.description?.content?.toUpperCase().includes('FOOD'))
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -402,8 +394,7 @@ const hotelPopulateFunctions = hotelData => {
       kidsFeatures: [],
       heated: null,
       cleanliness: '',
-      images: hotelData.hotel.images
-        .filter(item => item?.type?.description?.content?.toUpperCase().includes('pool'.toUpperCase()))
+      images: hotelData?.hotel?.images?.filter(item => item?.type?.description?.content?.toUpperCase().includes('pool'.toUpperCase()))
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
@@ -411,7 +402,7 @@ const hotelPopulateFunctions = hotelData => {
     },
     rooms: hotelData?.hotel?.rooms?.map(room => ({
       roomCode: room.roomCode,
-      isParentRoom: room.isParentRoom,
+      isParentRoom: room?.isParentRoom,
       maxOccupancyAdult: room?.maxAdults,
       maxOccupancyChild: room?.maxChildren,
       description: room?.description,
@@ -456,13 +447,13 @@ const hotelPopulateFunctions = hotelData => {
       isMicrowave: roomFacilitiesFinding(room?.roomFacilities, ''),
       FanOrAC: fidnFanAndAC(room.roomFacilities, room.roomStays),
       images: hotelData?.hotel?.images
-        ?.filter(item => item.type.description.content === 'Room' && item.roomCode === room.roomCode)
+        ?.filter(item => item?.type?.description?.content === 'Room' && item?.roomCode === room?.roomCode)
         .map(item => ({
           url: `http://photos.hotelbeds.com/giata/${item.path}`,
           title: item?.type?.description?.content,
         })),
       typeOfRoom: room?.type?.description?.content,
-      hotelBedsData: [{ extraFields: room.roomFacilities, roomStays: room?.roomStays }],
+      hotelBedsData: [{ extraFields: room?.roomFacilities, roomStays: room?.roomStays }],
     })),
     media: {
       images: hotelData?.hotel?.images?.map(item => ({
@@ -474,6 +465,9 @@ const hotelPopulateFunctions = hotelData => {
   };
   return transformedData;
 };
+
+
+
 // console.log(transformedData);
 
 module.exports = { hotelPopulateFunctions };
