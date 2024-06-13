@@ -4,6 +4,7 @@ const { hashString } = require('../utils/hotelbedXKey');
 const { hotelPopulateFunctions } = require('../utils/hotelPopulate');
 const { hotelBedSchema } = require('../model/hotelbed');
 const fs = require('fs');
+const { allHotelsName } = require('./allHotel');
 const hotelbedApiRoute = express.Router();
 const hashed = hashString();
 
@@ -93,9 +94,40 @@ hotelbedApiRoute.get('/get-all', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+hotelbedApiRoute.get("/get-all-count", async (req, res) => {
+  try {
+    // Fetch all hotel documents from the database
+    const allHotels = await hotelBedSchema.find();
+    let newarr = [];
+
+    for (let i = 0; i < allHotelsName.length; i++) {
+      // Find the hotel document by name in the fetched documents
+      const foundHotel = allHotels.find(item => item.hotel.name === allHotelsName[i]);
+      if (foundHotel) {
+        // Check if the hotel already exists in newarr
+        const existingHotelIndex = newarr.findIndex(item => item.hotel === allHotelsName[i]);
+        if (existingHotelIndex !== -1) {
+          // If the hotel already exists, increment its count
+          newarr[existingHotelIndex].count++;
+        } else {
+          // If the hotel doesn't exist, add it with count 1
+          const obj = { hotel: allHotelsName[i], count: 1 };
+          newarr.push(obj);
+        }
+      }
+    }
+    res.status(200).json({ allHotels: newarr });
+
+  } catch (error) {
+    // Handle error
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 hotelbedApiRoute.get('/get-all-data', async (req, res) => {
   try {
-    const { searchTerm } = req.query;
+    const { searchTerm, page, page_size = 5 } = req.query;
 
     let searchCriteria = {};
 
@@ -116,11 +148,18 @@ hotelbedApiRoute.get('/get-all-data', async (req, res) => {
       };
     }
 
-    console.log(searchCriteria);
+    const currentPage = parseInt(page) || 1;
+    const skip = (currentPage - 1) * page_size;
 
-    const allHotels = await hotelBedSchema.find(searchCriteria);
+    const allHotels = await hotelBedSchema
+      .find(searchCriteria)
+      .skip(skip)
+      .limit(page_size);
 
-    res.status(200).json(allHotels);
+    const totalHotelsCount = await hotelBedSchema.countDocuments(searchCriteria);
+    const totalPages = Math.ceil(totalHotelsCount / page_size);
+
+    res.status(200).json({ hotels: allHotels, currentPage, totalPages });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
