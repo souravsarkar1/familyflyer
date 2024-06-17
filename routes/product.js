@@ -10,20 +10,48 @@ const productRoute = express.Router();
 // GET all products
 productRoute.get('/', async (req, res) => {
   try {
-    // Extract pagination parameters from the request query
-    // const { page = 1, pageSize = 5 } = req.query;
-    // pagenatio https://chatgpt.com/c/aa1be9da-3e52-42a4-a3f3-ed150389b29b
+    // Extract pagination, sorting, and search parameters from the request query
+    const { page = 1, pageSize = 10, sortField = 'createdAt', sortOrder = 'asc', search = '' } = req.query;
+
     // Convert page and pageSize to numbers
-    // const pageNumber = parseInt(page);
-    // const pageSizeNumber = parseInt(pageSize);
+    const pageNumber = parseInt(page);
+    const pageSizeNumber = parseInt(pageSize);
 
     // Calculate the number of documents to skip
-    // const skip = (pageNumber - 1) * pageSizeNumber;
+    const skip = (pageNumber - 1) * pageSizeNumber;
 
-    // Fetch products with pagination from the database
-    const products = await ProductModel.find();
+    // Determine the sort order
+    const sort = {};
+    sort[sortField] = sortOrder === 'asc' ? 1 : -1;
+
+    const searchFilter = search
+      ? {
+        $or: [
+          { 'hotel.name': { $regex: search, $options: 'i' } }, // case-insensitive search on 'hotel.name'
+          { 'hotel.address': { $regex: search, $options: 'i' } }, // case-insensitive search on 'hotel.address'
+          { 'hotel.email': { $regex: search, $options: 'i' } }, // case-insensitive search on 'hotel.email'
+          { 'hotel.category.description': { $regex: search, $options: 'i' } }, // case-insensitive search on 'hotel.category.description'
+          { 'hotel.chain.description': { $regex: search, $options: 'i' } }, // case-insensitive search on 'hotel.chain.description'
+          { 'hotel.phoneNumber.phoneNumber': { $regex: search, $options: 'i' } }, // case-insensitive search on 'hotel.phoneNumber.phoneNumber'
+          { 'hotel.phoneNumber.phoneType': { $regex: search, $options: 'i' } }, // case-insensitive search on 'hotel.phoneNumber.phoneType'
+        ]
+      }
+      : {};
+
+
+    // Fetch products with pagination, sorting, and search filter from the database
+    const products = await ProductModel.find(searchFilter).skip(skip).limit(pageSizeNumber).sort(sort);
+
+    // Get the total count of products in the collection for pagination info
+    const totalProducts = await ProductModel.countDocuments(searchFilter);
+
     // Respond with a 200 status and the retrieved products in JSON format
-    res.status(200).json({ products });
+    res.status(200).json({
+      products,
+      totalProducts,
+      totalPages: Math.ceil(totalProducts / pageSizeNumber),
+      currentPage: pageNumber,
+    });
   } catch (error) {
     // Handle any errors that occur during the database query or response
     console.error('Error fetching products:', error);
@@ -32,7 +60,6 @@ productRoute.get('/', async (req, res) => {
 });
 
 //  GET SINGLE PRODUCT
-
 productRoute.get('/:id', async (req, res) => {
   try {
     const id = req.params.id;

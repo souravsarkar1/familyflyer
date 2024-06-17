@@ -5,8 +5,10 @@ const { hotelPopulateFunctions } = require('../utils/hotelPopulate');
 const { hotelBedSchema } = require('../model/hotelbed');
 const fs = require('fs');
 const { allHotelsName } = require('./allHotel');
+const { log } = require('console');
 const hotelbedApiRoute = express.Router();
 const hashed = hashString();
+log(hashed)
 
 hotelbedApiRoute.get('/get-data', async (req, res) => {
   try {
